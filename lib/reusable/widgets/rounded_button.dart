@@ -5,39 +5,38 @@ class RoundedButton extends StatelessWidget {
   const RoundedButton({
     required this.text,
     required this.onPressed,
+    required this.color,
     super.key,
   });
 
   final String text;
   final void Function() onPressed;
 
+  final Color color;
+
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(color: Colors.red)))),
-      onPressed: onPressed,
-      child: Text(text),
-    );
-
     return Material(
-      color: AppColors.primary,
+      color: color,
       borderRadius: BorderRadius.circular(50),
       child: InkWell(
-        onTap: () {},
+        onTap: onPressed,
         borderRadius: BorderRadius.circular(50),
-        child: Container(
+        child: SizedBox(
           width: 200,
-          height: 50,
-          alignment: Alignment.center,
-          child: Text(
-            text,
-            // style: const TextStyle(color: ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Center(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  height: 24.0 / 18.0,
+                ),
+              ),
+            ),
           ),
         ),
       ),

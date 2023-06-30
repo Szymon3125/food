@@ -9,14 +9,16 @@ class ProductDTO {
     required this.expiration,
     required this.amount,
     required this.unit,
+    required this.image,
   });
 
   @JsonKey(includeToJson: false, name: '\$id')
   String id;
   String name;
   int expiration;
-  double amount;
-  String unit;
+  double? amount;
+  String? unit;
+  String? image;
 
   factory ProductDTO.fromJson(Map<String, dynamic> data) =>
       _$ProductDTOFromJson(data);
