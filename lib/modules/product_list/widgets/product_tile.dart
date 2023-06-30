@@ -102,7 +102,7 @@ class ProductTile extends StatelessWidget {
         color: difference < 0
             ? AppColors.red
             : difference < 3
-                ? AppColors.gold
+                ? AppColors.orange
                 : AppColors.green,
         fontSize: 16,
         fontWeight: FontWeight.w400,

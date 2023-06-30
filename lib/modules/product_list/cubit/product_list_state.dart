@@ -25,6 +25,6 @@ class ProductListLoadedState extends ProductListState {
   });
 }
 
-class ProductListError extends ProductListState {
-  const ProductListError() : super(products: const []);
+class ProductListErrorState extends ProductListState {
+  const ProductListErrorState() : super(products: const []);
 }

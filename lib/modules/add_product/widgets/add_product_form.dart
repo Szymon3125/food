@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:food/data/food_repository/models/product_dto.dart';
 import 'package:food/modules/add_product/cubit/add_product_cubit.dart';
+import 'package:food/modules/auth/cubit/auth_cubit.dart';
 import 'package:food/reusable/widgets/rounded_date_picker.dart';
 import 'package:food/reusable/widgets/rounded_text_field.dart';
 import 'package:food/utils/app_colors.dart';
@@ -16,7 +17,12 @@ import 'package:image_picker/image_picker.dart';
 import '../../../reusable/widgets/rounded_button.dart';
 
 class AddProductForm extends StatefulWidget {
-  const AddProductForm({super.key});
+  const AddProductForm({
+    super.key,
+    required this.refresh,
+  });
+
+  final void Function() refresh;
 
   @override
   State<AddProductForm> createState() => _AddProductFormState();
@@ -39,7 +45,7 @@ class _AddProductFormState extends State<AddProductForm> {
     return FormBuilder(
       key: _formKey,
       child: BlocConsumer<AddProductCubit, AddProductState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           stateOverlay?.remove();
           if (state is AddProductSendingState) {
             stateOverlay = OverlayEntry(
@@ -56,7 +62,8 @@ class _AddProductFormState extends State<AddProductForm> {
             Overlay.of(context).insert(stateOverlay!);
           }
           if (state is AddProductSuccessState) {
-            AutoRouter.of(context).pop();
+            await AutoRouter.of(context).pop();
+            widget.refresh();
           }
         },
         builder: (context, state) {
@@ -165,6 +172,23 @@ class _AddProductFormState extends State<AddProductForm> {
   }
 
   void _addPhoto() {
+    if (context.read<AuthCubit>().state is UnauthenticatedState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content:
+              const Text('Tylko zalogowany użytkownik może dodać zdjęcie.'),
+          backgroundColor: AppColors.night.withOpacity(0.8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          margin: const EdgeInsets.all(4),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
     imageOverlay = OverlayEntry(
       builder: (context) => GestureDetector(
         onTap: () => imageOverlay?.remove(),

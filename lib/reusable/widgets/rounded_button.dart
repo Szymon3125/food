@@ -6,11 +6,13 @@ class RoundedButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     required this.color,
+    this.width = 200,
     super.key,
   });
 
   final String text;
   final void Function() onPressed;
+  final double width;
 
   final Color color;
 
@@ -23,7 +25,7 @@ class RoundedButton extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(50),
         child: SizedBox(
-          width: 200,
+          width: width,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Center(

@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:food/data/food_repository/food_repository.dart';
+
+import '../../../data/food_repository/food_repository.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({required FoodRepository foodRepository})
+  AuthCubit({required HddStorage foodRepository})
       : _foodRepository = foodRepository,
         super(UnauthenticatedState()) {
     _foodRepository.isAuthenticated.addListener(() {
@@ -17,7 +18,7 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  final FoodRepository _foodRepository;
+  final HddStorage _foodRepository;
 
   Future<void> loginWithGoogle() async {
     await _foodRepository.loginWithGoogle();

@@ -17,10 +17,10 @@ void main() {
 class FoodApp extends StatelessWidget {
   FoodApp({super.key})
       : _appRouter = AppRouter(),
-        _foodRepository = FoodRepository();
+        _foodRepository = HddStorage();
 
   late final AppRouter _appRouter;
-  late final FoodRepository _foodRepository;
+  late final HddStorage _foodRepository;
 
   @override
   Widget build(BuildContext context) {

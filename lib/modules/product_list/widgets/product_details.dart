@@ -3,13 +3,17 @@ import 'package:food/data/food_repository/models/product_dto.dart';
 import 'package:food/utils/app_colors.dart';
 import 'package:intl/intl.dart';
 
+import '../../../reusable/widgets/rounded_button.dart';
+
 class ProductDetails extends StatelessWidget {
   const ProductDetails({
     super.key,
     required this.product,
+    required this.removeProduct,
   });
 
   final ProductDTO product;
+  final void Function() removeProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,7 @@ class ProductDetails extends StatelessWidget {
                                   color: difference < 0
                                       ? AppColors.red
                                       : difference < 3
-                                          ? AppColors.gold
+                                          ? AppColors.orange
                                           : AppColors.green,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -95,6 +99,13 @@ class ProductDetails extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                            const SizedBox(height: 24),
+                            RoundedButton(
+                              text: 'Usuń',
+                              onPressed: removeProduct,
+                              width: 125,
+                              color: AppColors.primary2,
+                            ),
                           ],
                         ),
                       ),
@@ -120,7 +131,7 @@ class ProductDetails extends StatelessWidget {
                                   product.name.trim()[0].toUpperCase(),
                                   style: const TextStyle(
                                     color: AppColors.night,
-                                    fontSize: 24,
+                                    fontSize: 64,
                                     fontWeight: FontWeight.w700,
                                     height: 1,
                                   ),

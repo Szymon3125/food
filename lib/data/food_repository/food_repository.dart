@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:food/data/food_repository/models/product_dto.dart';
 import 'package:intl/intl.dart';
 
-class FoodRepository {
-  FoodRepository() {
+class HddStorage {
+  HddStorage() {
     _client = Client();
     _client
         .setEndpoint('https://cloud.appwrite.io/v1')
@@ -51,7 +51,7 @@ class FoodRepository {
       email: email,
       password: password,
     ));
-    await getProductList();
+    isAuthenticated.value = true;
   }
 
   Future<void> loginWithGoogle() async {
@@ -63,7 +63,6 @@ class FoodRepository {
       provider: 'google',
     );
     isAuthenticated.value = true;
-    await getProductList();
   }
 
   Future<void> logout() async {
@@ -71,10 +70,9 @@ class FoodRepository {
       return;
     }
 
-    await _account.deleteSession(
-      sessionId: _session!.$id,
-    );
+    await _account.deleteSessions();
     _setSession(null);
+    isAuthenticated.value = false;
   }
 
   Future<List<ProductDTO>> getProductList() async {
@@ -120,9 +118,13 @@ class FoodRepository {
     );
   }
 
-  // Future<ProductDTO> getProduct(String id) async {}
+  Future<void> deleteProduct(String id) async {
+    Databases databases = Databases(_client);
 
-  // Future<void> addProduct() async {}
-
-  // Future<void> deleteProduct(String id) async {}
+    await databases.deleteDocument(
+      databaseId: foodDatabaseId,
+      collectionId: productsCollectionId,
+      documentId: id,
+    );
+  }
 }
